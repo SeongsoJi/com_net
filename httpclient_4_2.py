@@ -60,6 +60,7 @@ def fetch_page(url, count=0):
         for line in res_text.split("\r\n"):
             if line.lower().startswith("location:"):
                 newurl = line.split(":", 1)[1].strip()
+                print("Redirected to:", newurl, file=sys.stderr)  # stderr 출력 추가
                 print("리다이렉트 감지! 새 주소로 이동:", newurl)
                 return fetch_page(newurl, count + 1)
         print("Location 헤더 못 찾음...")
