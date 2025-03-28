@@ -66,9 +66,16 @@ def fetch_page(url, count=0):
         print("Location 헤더 못 찾음...")
         sys.exit(1)
 
-    # 최종 출력
+    # 400 이상 에러 처리
+    if code >= 400:
+        print("\n========== 에러 응답 ==========\n")
+        print(res_text)
+        sys.exit(1)  # 실패 종료
+
+    # 정상 응답이면 출력
     print("\n========== 결과 출력 ==========\n")
     print(res_text)
+    sys.exit(0)  # 성공 종료
 
 # 시작 부분
 if len(sys.argv) < 2:
