@@ -15,12 +15,25 @@ def fetch_page(url, count=0):
         
     # http:// 잘라내기
     url = url[7:]
+    # (Rules to follow 10번)
     if "/" in url:
         host, path = url.split("/", 1)
         path = "/" + path
     else:
         host = url
         path = "/"
+
+    # 포트 번호 처리(Rules to follow 10번)
+    if ":" in host_and_port:
+        host, port_str = host_and_port.split(":", 1)
+        try:
+            port = int(port_str)
+        except:
+            print("포트 번호가 이상함!.")
+            sys.exit(1)
+    else:
+        host = host_and_port
+        port = 80  # 기본 포트
 
     # 소켓 만들고 연결하기
     try:
@@ -34,7 +47,7 @@ def fetch_page(url, count=0):
     req = f"GET {path} HTTP/1.0\r\nHost: {host}\r\n\r\n"
     sock.send(req.encode())
 
-    # 응답 받기
+    # 응답 받기(Rules to follow 12번) 크고 긴 HTML 페이지도 처리할 수 있어야 한다. -> 한 번의 recv()로 다 못 받을 수 있으니까, 반복해서 받자
     res = b""
     while True:
         part = sock.recv(4096)
