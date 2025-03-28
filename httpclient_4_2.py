@@ -60,9 +60,16 @@ def fetch_page(url, count=0):
         for line in res_text.split("\r\n"):
             if line.lower().startswith("location:"):
                 newurl = line.split(":", 1)[1].strip()
+
+                # 리다이렉트된 새 주소가 https://로 시작하면 종료
+                if newurl.startswith("https://"):
+                    print("https로 리다이렉트 됨. 종료할게.", file=sys.stderr)
+                    sys.exit(1)
+                    
                 print("Redirected to:", newurl, file=sys.stderr)  # stderr 출력 추가
                 print("리다이렉트 감지! 새 주소로 이동:", newurl)
                 return fetch_page(newurl, count + 1)
+        
         print("Location 헤더 못 찾음...")
         sys.exit(1)
 
