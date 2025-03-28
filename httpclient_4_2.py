@@ -79,6 +79,17 @@ def fetch_page(url, count=0):
         print(res_text)
         sys.exit(1)  # 실패 종료
 
+    # Content-Type 검사
+    content_type = ""
+    for line in res_text.split("\r\n"):
+        if line.lower().startswith("content-type:"):
+            content_type = line.split(":", 1)[1].strip().lower()
+            break
+
+    if not content_type.startswith("text/html"):
+        print(f"Content-Type이 text/html이 아님: {content_type}")
+        sys.exit(1)  # 실패 처리
+    
     # 정상 응답이면 출력
     print("\n========== 결과 출력 ==========\n")
     print(res_text)
