@@ -56,3 +56,19 @@ if status_code in (301, 302):
     sys.exit(1)
 
   return fetch_http(location, redirect_count+1)
+
+if status_code>=400:
+  print(body)
+  sys.exit(1)
+
+content_type = ""
+for line in header_data.split("\r\n"):
+  if line.lower().startswith("content-type:"):
+    content_type = line.split(":",1)[1].strip()
+
+if not content_type.startswith("text.html"):
+  print(f"지원하지 않는 Content-Type: {content_type}", file = sys.stderr)
+  sys.exit(1)
+
+print(body)
+sys.exit(0)
