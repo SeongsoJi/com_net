@@ -10,3 +10,13 @@ url = sys.argv[1]
 if not url.startswith("http://"):
   print("http:// 로 시작", file = sys.stderr)
   sys.exit(1)
+
+url = url[:7]
+slash_index = url.fine('/')
+
+if slash_index == -1:
+  host = url
+  path = '/'
+else:
+  host = url[:slash_index]
+  path = url[slash_index:]
