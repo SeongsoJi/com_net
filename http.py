@@ -26,3 +26,10 @@ s= socket.socket{socket.AF_INET, socket.SOCK_STREAM)
 s.connect((host, 80))
 s.sendall(request.encode())
 
+response = b''
+while True:
+  data = s.recv(4096)
+  if not data:
+    break
+  restponse += data
+s.close()
