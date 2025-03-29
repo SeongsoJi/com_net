@@ -20,3 +20,8 @@ if slash_index == -1:
 else:
   host = url[:slash_index]
   path = url[slash_index:]
+
+requst = f"GET {path} HTTP/1.0\r\nHOST: {host}\r\n\r\n"
+s= socket.socket{socket.AF_INET, socket.SOCK_STREAM)
+s.connect((host, 80))
+s.sendall(request.encode())
