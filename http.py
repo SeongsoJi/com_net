@@ -33,3 +33,8 @@ while True:
     break
   restponse += data
 s.close()
+
+decoded = response.decode(errors = "ignore")
+headr_data, _, body = decoded.partition("\r\n\r\n")
+status_line = header_data.split("\r\n")[0]
+status_code = int(status_line.split()[1])
