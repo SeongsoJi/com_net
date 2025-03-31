@@ -64,11 +64,12 @@ def fetch_http(url, redirect_count=0):
             location = line.split(":", 1)[1].strip()
 
     if status_code in (301, 302):
-        print(f"Redirected to: {location}", file=sys.stderr)
+        print(f"{status_code} 리디렉션됨 → Location: {location}", file=sys.stderr)
         if location.startswith("https://"):
             print("HTTPS 주소 불가", file=sys.stderr)
             sys.exit(1)
         return fetch_http(location, redirect_count + 1)
+
 
     if status_code >= 400:
         print(body)
