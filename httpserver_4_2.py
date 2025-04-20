@@ -3,11 +3,12 @@ import sys
 
 class SimpleHTTPServer:
     def __init__(self, port):
-        self.port = port
+        print(f"[서버 시작] 포트 {port}에서 대기 중...")
+
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.server_socket.bind(('', port))
         self.server_socket.listen(1)
-        print(f"[서버 시작] 포트 {port}에서 대기 중...")
 
     def start(self):
         while True:
@@ -94,3 +95,8 @@ if __name__ == "__main__":
 
     server = SimpleHTTPServer(port)
     server.start()
+
+
+#C:\Users\User\PycharmProjects\PythonProject1
+# python httpserver_4_2.py 8000
+# http://localhost:8000/rfc2616.html
