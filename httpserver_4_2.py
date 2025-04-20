@@ -1,6 +1,5 @@
 import socket
 import sys
-import os
 
 def run_server(port):
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -13,14 +12,12 @@ def run_server(port):
             connection_socket, client_address = server_socket.accept()
             print(f"[접속] 클라이언트: {client_address}")
 
-
             request = connection_socket.recv(1024).decode()
             print(f"[요청 내용]\n{request}")
 
             if not request:
                 connection_socket.close()
                 continue
-
 
             request_line = request.split('\r\n')[0]
             parts = request_line.split()
@@ -35,21 +32,20 @@ def run_server(port):
                 send_error(connection_socket, 405, "Method Not Allowed")
                 continue
 
-
             filename = path.lstrip('/')
 
-
-            if not os.path.exists(filename):
-                send_error(connection_socket, 404, "Not Found")
-                continue
-
+            # 확장자 검사 먼저
             if not (filename.endswith('.html') or filename.endswith('.htm')):
                 send_error(connection_socket, 403, "Forbidden")
                 continue
 
-
-            with open(filename, 'rb') as f:
-                body = f.read()
+            # 파일 열기 시도 (파일 존재 여부 확인)
+            try:
+                with open(filename, 'rb') as f:
+                    body = f.read()
+            except FileNotFoundError:
+                send_error(connection_socket, 404, "Not Found")
+                continue
 
             header = "HTTP/1.0 200 OK\r\n"
             header += "Content-Type: text/html\r\n"
@@ -61,10 +57,12 @@ def run_server(port):
 
         except Exception as e:
             print(f"[오류 발생] {e}")
-            send_error(connection_socket, 500, "Internal Server Error")
+            try:
+                send_error(connection_socket, 500, "Internal Server Error")
+            except:
+                pass
 
         finally:
-
             connection_socket.close()
 
 def send_error(sock, code, message):
@@ -80,20 +78,16 @@ def send_error(sock, code, message):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("사용법: python httpserver_4_2.py [포트번호]")
+        print("사용법: python httpserver_4_1.py [포트번호]")
         sys.exit(1)
 
     try:
         port = int(sys.argv[1])
         if port < 1024:
-            print("포트 번호는 1024 이상이어야 합니다.")
+            print("⚠ 포트 번호는 1024 이상이어야 합니다.")
             sys.exit(1)
     except ValueError:
-        print("포트 번호는 숫자여야 합니다.")
+        print("⚠ 포트 번호는 숫자여야 합니다.")
         sys.exit(1)
 
     run_server(port)
-
-# 경로 C:\Users\User\PycharmProjects\PythonProject1
-# python httpserver_4_2.py 8000
-# http://localhost:8000/rfc2616.html
