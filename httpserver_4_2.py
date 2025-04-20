@@ -6,7 +6,6 @@ class SimpleHTTPServer:
         print(f"[서버 시작] 포트 {port}에서 대기 중...")
 
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.server_socket.bind(('', port))
         self.server_socket.listen(1)
 
