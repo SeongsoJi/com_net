@@ -28,6 +28,7 @@ class SimpleHTTPServer:
 
             request_line = request.split('\r\n')[0]
             parts = request_line.split()
+            //공백 기준으로 나눠서 method, path, version 분리
 
             if len(parts) != 3:
                 self.send_error(connection_socket, 400, "Bad Request")
