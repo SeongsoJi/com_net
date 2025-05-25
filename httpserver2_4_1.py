@@ -62,6 +62,16 @@ class MultiConnectionHTTPServer:
 
             sock.sendall(header.encode() +body)
             print(f"[응답 완료] {filename}")
+         
+          except Exception as e:
+            print(f"[에러 발생] {e}")
+            self.send_error(sock, 500, "Internal Server Error")
+
+          finally:
+            sock.close()
+            inputs.remove(sock)
+            del self.open_connections[sock]
+          
             
                                                               
                                                             
