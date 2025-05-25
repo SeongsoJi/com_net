@@ -27,4 +27,20 @@ class MultiConnectionHTTPServer:
           inputs.append(client_socket)
           self.open_connections[client_socket] = client_address
 
+        else:
+          try:
+            request = sock.recv(1024).decode()
+            if not request:
+              raise Exception("빈 요청")
+            print(f"[요청 수신] {self.open_connecions[sock]}\n{request}")
+            
+                                                              
+                                                            
+                                                                    
+            
+
+
+
+            
+
 
