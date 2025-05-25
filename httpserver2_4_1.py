@@ -44,6 +44,23 @@ class MultiConnectionHTTPServer:
             if method != "GET":
               self.sned_error(sock, 405, "Method Not Allowed")
               continue
+
+            filename = path.lstrip('/')
+            if not (filename.endswith('.html') or filename.endswith('.htm)):
+              self.send_error(sock, 403, "Forbidden")
+              continue
+            if not os.path.exists(filename):
+              self.send_error(sock, 404, "Not Found")
+              continue
+            
+                                                              
+                                                            
+                                                                    
+            
+
+
+
+            
            
 
 
