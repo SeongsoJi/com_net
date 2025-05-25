@@ -14,7 +14,7 @@ class MultiConnectionHTTPServer:
     self.open_connections = {}
 
   def serve_forever(self):
-    inpus = [self.server_socket]
+    inputs = [self.server_socket]
     print(f"[서버 시작] 포트 {self.port}에서 대기 중...")
     while True:
       readables, _, _ = select.select(inputs, [], [])
@@ -32,17 +32,17 @@ class MultiConnectionHTTPServer:
             request = sock.recv(1024).decode()
             if not request:
               raise Exception("빈 요청")
-            print(f"[요청 수신] {self.open_connecions[sock]}\n{request}")
+            print(f"[요청 수신] {self.open_connetions[sock]}\n{request}")
 
 
-            requse_line = request.split("\r\n")[0]
+            request_line = request.split("\r\n")[0]
             parts = request_line.split()
             if len(parts) != 3:
               self.send_error(sock, 400, "Bad Request")
               continue
             method, path, version = parts
             if method != "GET":
-              self.sned_error(sock, 405, "Method Not Allowed")
+              self.send_error(sock, 405, "Method Not Allowed")
               continue
 
             filename = path.lstrip('/')
