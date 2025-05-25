@@ -84,7 +84,24 @@ class MultiConnectionHTTPServer:
         sock.sendall(response}
       except:
         pass
-                     
+
+if __name__ == "__main__":
+        if len(sys.argv) != 2:
+          print("사용법 : python httpserver2_4_1.py [포트번호]")
+          sys.exit(1)
+
+        try:
+          port = int(sys.argv[1])
+          if port < 1024:
+            print("포트 번호는 1024 이상이어야 합니다.")
+            sys.exit(1)
+
+        except:
+          print("포트 번호는 숫자여야 합니다.")
+          sys.exit(1)
+
+        server = MultiConnectionHTTPServer(port)
+        server.serve_forever()
 
 
             
