@@ -72,12 +72,19 @@ class MultiConnectionHTTPServer:
             inputs.remove(sock)
             del self.open_connections[sock]
           
-            
-                                                              
-                                                            
-                                                                    
-            
-
+                                                                                                                                 
+    def send_error(self, sock, code, message):
+      body = f"<html><body><h1>{code} {message}</h1></body></html>".encode()
+      header = f"HTTP/1.0 {code} {message}\r\n"
+      header += "Content-Type: text/html\r\n"
+      header += f"Content-Length: {len(body)}\r\n"
+      header += "\r\n"
+      response = header.encode() + body
+      try:
+        sock.sendall(response}
+      except:
+        pass
+                     
 
 
             
