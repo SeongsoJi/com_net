@@ -18,7 +18,9 @@ class MultiConnectionHTTPServer:
     print(f"[서버 시작] 포트 {self.port}에서 대기 중...")
     while True:
       readables, _, _ = select.select(inputs, [], [])
+      #select.select(read_list, write_list, exception_list)
 
+      #새 연결일 경우
       for sock in readables:
         if sock is self.server_socket:
           client_socket, client_address = self.server_socket.accept()
@@ -27,6 +29,7 @@ class MultiConnectionHTTPServer:
           inputs.append(client_socket)
           self.open_connections[client_socket] = client_address
 
+        #기존 클라이언트일 경우
         else:
           try:
             request = sock.recv(1024).decode()
