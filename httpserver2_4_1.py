@@ -52,6 +52,16 @@ class MultiConnectionHTTPServer:
             if not os.path.exists(filename):
               self.send_error(sock, 404, "Not Found")
               continue
+            with open(filename, 'rb') as f:
+              body = f.read()
+
+            header = "HTTP/1.0 200 OK\r\n"
+            header += "Content-Type: text/html\r\n"
+            heaer += f"content-Length: {len(body)}\r\n"
+            header += "r\n\"
+
+            sock.sendall(header.encode() +body)
+            print(f"[응답 완료] {filename}")
             
                                                               
                                                             
