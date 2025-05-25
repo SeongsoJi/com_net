@@ -7,7 +7,7 @@ class MultiConnectionHTTPServer:
   def __init__(self, port):
     self.port = port
     self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    self.server_socket.setsockopt(socket.SOL_SOCKNET, socket.SO_REUSEADDR, 1)
+    self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     self.server_socket.bind(('', self.port))
     self.server_socket.listen(5)
     self.server_socket.setblocking(False)
@@ -32,7 +32,7 @@ class MultiConnectionHTTPServer:
             request = sock.recv(1024).decode()
             if not request:
               raise Exception("빈 요청")
-            print(f"[요청 수신] {self.open_connetions[sock]}\n{request}")
+            print(f"[요청 수신] {self.open_connections[sock]}\n{request}")
 
 
             request_line = request.split("\r\n")[0]
@@ -63,10 +63,10 @@ class MultiConnectionHTTPServer:
 
             header = "HTTP/1.0 200 OK\r\n"
             header += "Content-Type: text/html\r\n"
-            heaer += f"content-Length: {len(body)}\r\n"
+            header += f"Content-Length: {len(body)}\r\n"
             header += "\r\n"
 
-            sock.sendall(header.encode() +body)
+            sock.sendall(header.encode() + body)
             print(f"[응답 완료] {filename}")
          
           except Exception as e:
