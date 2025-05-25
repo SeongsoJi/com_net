@@ -81,7 +81,7 @@ class MultiConnectionHTTPServer:
       header += "\r\n"
       response = header.encode() + body
       try:
-        sock.sendall(response}
+        sock.sendall(response)
       except:
         pass
 
