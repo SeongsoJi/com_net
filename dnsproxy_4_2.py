@@ -50,4 +50,12 @@ class DNSProxy:
     arcount = bytes([0x00, 0x00])
 
     header = transaction_id + flags + qdcount + ancount + nscount + arcount
+    
+    question = query_data[12:]
+
+    name_pointer = bytes([0xC0, 0x0C])  # 질문 이름 포인터
+    type_a = bytes([0x00, 0x01])  # Type A
+    class_in = bytes([0x00, 0x01])  # Class IN
+    ttl = bytes([0x00, 0x00, 0x01, 0x2C])  # 300초 = 0x012C
+    rdlength = bytes([0x00, 0x04])  # IPv4 길이
 
