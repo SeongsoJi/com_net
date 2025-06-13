@@ -40,3 +40,14 @@ class DNSProxy:
     flags_low = data[3]
     rcode = flags_low & 0x0F
     return rcode ==3
+
+  def cratf_fake_response(self, query_data):
+    transaction_id = query_data[0:2]
+    flags = bytes([0x81, 0x80])  # QR=1, Opcode=0, AA=1, TC=0, RD=1, RA=1, RCODE=0
+    qdcount = bytes([0x00, 0x01])
+    ancount = bytes([0x00, 0x01])
+    nscount = bytes([0x00, 0x00])
+    arcount = bytes([0x00, 0x00])
+
+    header = transaction_id + flags + qdcount + ancount + nscount + arcount
+
