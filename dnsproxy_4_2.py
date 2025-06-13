@@ -17,7 +17,7 @@ class DNSProxy:
       print("DNS 프록시가 {self.listen_host}:{self.listen_port}에서 수신 대기 중입니다")
 
       while True:
-        data, client_addr = self.server_socket.recvform(self.buffer_size)
+        data, client_addr = self.server_socket.recvfrom(self.buffer_size)
         print(f"{client_addr}로부터 DNS 요청을 받았습니다")
         
         self.server_socket.sendto(data, self.upstream_dns)
