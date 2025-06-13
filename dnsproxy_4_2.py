@@ -39,7 +39,7 @@ class DNSProxy:
     flags_high = data[2]
     flags_low = data[3]
     rcode = flags_low & 0x0F
-    return rcode ==3
+    return rcode ==
 
   def cratf_fake_response(self, query_data):
     transaction_id = query_data[0:2]
