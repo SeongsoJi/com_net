@@ -14,7 +14,7 @@ class DNSProxy:
   def start(self):
     try:
       self.server_socket.bind((self.listen_host, self.listen_port))
-      print("DNS 프록시가 {self.listen_host}:{self.listen_port}에서 수신 대기 중입니다")
+      print(f"DNS 프록시가 {self.listen_host}:{self.listen_port}에서 수신 대기 중입니다")
 
       while True:
         data, client_addr = self.server_socket.recvfrom(self.buffer_size)
