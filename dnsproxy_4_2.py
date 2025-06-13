@@ -34,3 +34,9 @@ class DNSProxy:
       print("DNS 프록시를 종료합니다.")
     finally:
       self.server_socket.close()
+
+  def is_nxdomain(self, data):
+    flags_high = data[2]
+    flags_low = data[3]
+    rcode = flags_low & 0x0F
+    return rcode ==3
