@@ -48,7 +48,7 @@ class DNSProxy:
     ancount = bytes([0x00, 0x01])
     nscount = bytes([0x00, 0x00])
     arcount = bytes([0x00, 0x00])
-
+    
     header = transaction_id + flags + qdcount + ancount + nscount + arcount
     
     question = query_data[12:]
@@ -59,3 +59,17 @@ class DNSProxy:
     ttl = bytes([0x00, 0x00, 0x01, 0x2C])  # 300초 = 0x012C
     rdlength = bytes([0x00, 0x04])  # IPv4 길이
 
+    ip_parts = [int(x) for x in self.fake_ip.split('.')]
+    rdata = bytes(ip_parts)
+
+    answer = name_pointer + type_a + class_in + ttl + rdlength + rdata
+
+    return header + question + answer
+
+if __name__ == "__main__":
+    proxy = DNSProxy(fake_ip='203.0.113.1')
+    proxy.start()
+
+
+
+  
