@@ -3,7 +3,7 @@ import sys
 
 class DNSProxy:
   def __init__(self, listen_host='0.0.0.0', listen_port = 1053, upstream_dns=('8.8.8.8', 53), fake_ip='203.0.113.1'):
-    self.listen_host = listen_host
+    self.listen_host = listen_host    #인스턴스 변수로 저장
     self.listen_port = listen_port
     self.upstream_dns = upstream_dns
     self.fake_ip = fake_ip
@@ -41,7 +41,7 @@ class DNSProxy:
     rcode = flags_low & 0x0F
     return rcode == 3
 
-  def cratf_fake_response(self, query_data):
+  def craft_fake_response(self, query_data):
     transaction_id = query_data[0:2]
     flags = bytes([0x81, 0x80])  # QR=1, Opcode=0, AA=1, TC=0, RD=1, RA=1, RCODE=0
     qdcount = bytes([0x00, 0x01])
