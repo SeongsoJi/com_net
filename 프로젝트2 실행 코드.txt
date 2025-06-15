@@ -1,0 +1,8 @@
+cd C:\Users\김채민\Desktop\DNS
+
+터미널1
+python dnsproxy_4_2.py
+
+터미널2
+python dns_tester.py example.com 127.0.0.1 1053 A
+
